@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <string>
 using namespace std;
 
 class cell {
@@ -9,7 +10,7 @@ class cell {
   int way;
 };
 
-int func (int r,int c, char A[], char B[], cell* C, int col_no, int row_no){
+int func (int r,int c, string A, string B, cell* C, int col_no, int row_no){
   if((C+col_no*r + c)->val != INT8_MAX){
     return (C+col_no*r + c)->val; 
   }
@@ -45,10 +46,22 @@ int func (int r,int c, char A[], char B[], cell* C, int col_no, int row_no){
 }
 
 int main(){
-  char A[] = "TCGGTACGATACGATAAAA";
-  char B[] = "ATATCGATACAGATACGCGAA";
-  int a = sizeof(A)/sizeof(A[0]) - 1;
-  int b = sizeof(B)/sizeof(B[0]) - 1;
+  string A1;
+  string B1;
+  cout << "Paste the first sequence and press enter" << endl;
+  getline (cin,A1);
+  cout << "Paste the second sequence and press enter" << endl;
+  getline (cin,B1);
+  int a = A1.size();
+  int b = B1.size();
+  char A[a+1];
+  char B[b+1];
+  strcpy(A,A1.c_str());
+  strcpy(B,B1.c_str());
+  A[a] = 'L'; // fake last character as code neccesarily matches last character
+  B[b] = 'M'; // fake last character as code neccesarily matches last character 
+  a++; b++;
+  
   cell C[b][a];
   for(int i = 0;i<b;i++){
     for(int j = 0;j<a;j++){
@@ -60,8 +73,8 @@ int main(){
 
   vector<char> A_align;
   vector<char> B_align;
-  A_align.push_back(A[a]);
-  B_align.push_back(B[b]);
+  A_align.push_back(A[a-1]);
+  B_align.push_back(B[b-1]);
   int r = b-1;
   int c = a-1;
   while(C[r][c].way != 2){
